@@ -1,6 +1,6 @@
 # README file
 
-MSc Artificial Intelligence Project
+MSc Artificial Intelligence Project - Summer 2018
 
 2014 Tox21 data challenge to classify 10,000+ compounds as toxic for 12 bio-assays.
 
