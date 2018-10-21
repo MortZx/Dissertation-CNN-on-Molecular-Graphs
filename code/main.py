@@ -4,7 +4,7 @@ Created on Sat Sep  1 02:06:34 2018
 
 @author: MortZ
 
-FINAL1000
+Tox21 data challenge for 1000 instances
 """
 
 from __future__ import division
@@ -37,15 +37,15 @@ from sklearn.multiclass import OneVsRestClassifier
 from scipy import interp
 
 ###############################################################################
-adj = np.load('adjFINAL1000.npy').tolist()
-features = sp.lil_matrix(np.load('featuresFINAL1000.npy'))
-idx_super = np.load('idx_superFINAL1000.npy')
-y_train = np.load('y_trainFINAL1000.npy')
-y_test = np.load('y_testFINAL1000.npy')
-y_val = np.load('y_valFINAL1000.npy')
-train_mask = np.load('train_maskFINAL1000.npy')
-test_mask = np.load('test_maskFINAL1000.npy')
-val_mask = np.load('val_maskFINAL1000.npy')
+adj = np.load('data/adj1000.npy').tolist()
+features = sp.lil_matrix(np.load('data/features1000.npy'))
+idx_super = np.load('data/idx_super1000.npy')
+y_train = np.load('data/y_train1000.npy')
+y_test = np.load('data/y_test1000.npy')
+y_val = np.load('data/y_val1000.npy')
+train_mask = np.load('data/train_mask1000.npy')
+test_mask = np.load('data/test_mask1000.npy')
+val_mask = np.load('data/val_mask1000.npy')
 
 idx_super2 = [ [] for x in range(len(idx_super))]
 for i in range(len(idx_super)):

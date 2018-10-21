@@ -7,14 +7,20 @@ Created on Tue Aug 14 14:36:12 2018
 Functions used once but kept for documentation purposes
 """
 
+
+
 '''
-once n1
+Store number of rows of each graph in a list - to ensure dimensions are correct
+argument: AM
+returns: list of ints 
 '''
- # store number of rows of each graph in a list
- n_col = 75
- n_rows = [ [] for x in range(len(AM))]
- for i in range(len(AM)):
-     n_rows[i] = len(AM[i])
+# store number of rows of each graph in a list
+def num_rows_in_AM(AM):
+    n_col = 75
+    n_rows = [ [] for x in range(len(AM))]
+    for i in range(len(AM)):
+        n_rows[i] = len(AM[i])
+    return n_rows
 
 
 '''
