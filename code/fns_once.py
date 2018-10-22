@@ -7,6 +7,8 @@ Created on Tue Aug 14 14:36:12 2018
 Functions used once but kept for documentation purposes
 """
 
+import pandas as pd
+import numpy as np
 
 
 '''
@@ -22,10 +24,14 @@ def num_rows_in_AM(AM):
         n_rows[i] = len(AM[i])
     return n_rows
 
+##############################################################################
 
 '''
-once n2
+Find number of nodes in each graph in train, test and combined sets for classes 1 and 2.
+Function now obsolete and inneficient --> too many vars with similar vars crashes spyder's variable explorer
+arguments: FMtr1, FMtr2, FMtst1, FMtst2, FM (FM = feature matrix)
 '''
+# Initialise vars
 n_tr1 = 0
 n_tr2 = 0
 n_tst1 = 0
@@ -36,99 +42,73 @@ n_all2 = 0
 # number of nodes in tr set class 1
 for i in range(len(FMtr1)):
     for j in range(len(FMtr1[i])):
-        n_tr1 += 1                              # = 513
+        n_tr1 += 1                              
 # number of nodes in tr set class 2
 for i in range(len(FMtr2)):
     for j in range(len(FMtr2[i])):
-        n_tr2 += 1                              # = 515
+        n_tr2 += 1                              
 # number of nodes in test set class 1
 for i in range(len(FMtst1)):
     for j in range(len(FMtst1[i])):
-        n_tst1 += 1                             # = 184
+        n_tst1 += 1                             
 # number of nodes in test set class 2
 for i in range(len(FMtst2)):
     for j in range(len(FMtst2[i])):
-        n_tst2 += 1                             # = 163
+        n_tst2 += 1                             
 # number of nodes in class 1
 for i in range(50):
     for j in range(len(FM[i])):
-        n_all1 += 1                             # = 810
+        n_all1 += 1                             
 # number of nodes in class 2
 for i in range(50,100):
     for j in range(len(FM[i])):
-        n_all2 += 1                             # = 847    
+        n_all2 += 1                             
 
     
-n_tr = n_tr1+ n_tr2      # = 1028
-n_tst = n_tst1 + n_tst2  # = 347
-n_all = n_all1 + n_all2  # = 1657
+n_tr = n_tr1+ n_tr2      
+n_tst = n_tst1 + n_tst2  
+n_all = n_all1 + n_all2  
 
-# create labels for tr set class 1
-labels_tr1_n1a = np.zeros((n_tr1,1), dtype='int64')
-labels_tr1_n1b = np.ones((n_tr1,1), dtype='int64')
-labels_tr1_n1a_df = pd.DataFrame(labels_tr1_n1a)
-labels_tr1_n1b_df = pd.DataFrame(labels_tr1_n1b)
-labels_tr1_n_df = pd.concat([labels_tr1_n1a_df, labels_tr1_n1b_df], axis=1)
-labels_tr1_n = labels_tr1_n_df.values # (513,2)
+## Create T & F labels for a set for a class based on number of nodes
+## arguments: number of nodes in a set (int)
+## returns: list of size n
+def set_labels(n_in_set):
+    labels1 = np.ones((n_in_set, 1), dtype='int64')     # True labels numpy
+    labels0 = np.zeros((n_in_set, 1), dtype='int64')    # False labels numpy
+    # Convert to dataframe
+    labels1_df = pd.DataFrame(labels1)      
+    labels0_df = pd.DataFrame(labels0)    
+    labels_df = pd.concat([labels1_df, labels0_df], axis=1) # concat as 1 df
+    return labels_df.values
 
-# create labels for tr set class 2
-labels_tr2_n1a = np.ones((n_tr2,1), dtype='int64')
-labels_tr2_n1b = np.zeros((n_tr2,1), dtype='int64')
-labels_tr2_n1a_df = pd.DataFrame(labels_tr2_n1a)
-labels_tr2_n1b_df = pd.DataFrame(labels_tr2_n1b)
-labels_tr2_n_df = pd.concat([labels_tr2_n1a_df, labels_tr2_n1b_df], axis=1)
-labels_tr2_n = labels_tr2_n_df.values # (515,2)
 
-# create labels for tst set class 1
-labels_tst1_n1a = np.zeros((n_tst1,1), dtype='int64')
-labels_tst1_n1b = np.ones((n_tst1,1), dtype='int64')
-labels_tst1_n1a_df = pd.DataFrame(labels_tst1_n1a)
-labels_tst1_n1b_df = pd.DataFrame(labels_tst1_n1b)
-labels_tst1_n_df = pd.concat([labels_tst1_n1a_df, labels_tst1_n1b_df], axis=1)
-labels_tst1_n = labels_tst1_n_df.values # (184,2)
+## Combined labels from fn(set_labels) for both classes
+## arguments: lists of size n for class 1 and 2
+## returns: list of size (n x 2) 
+def class_labels(labels_class1, labels_class2):
+    labels_class = pd.concat([labels_class1, labels_class2], axis=0)
+    return labels_class.values
 
-# create labels for tst set class 2
-labels_tst2_n1a = np.ones((n_tst2,1), dtype='int64')
-labels_tst2_n1b = np.zeros((n_tst2,1), dtype='int64')
-labels_tst2_n1a_df = pd.DataFrame(labels_tst2_n1a)
-labels_tst2_n1b_df = pd.DataFrame(labels_tst2_n1b)
-labels_tst2_n_df = pd.concat([labels_tst2_n1a_df, labels_tst2_n1b_df], axis=1)
-labels_tst2_n = labels_tst2_n_df.values # (163,2)
 
-# create labels for all set class 1
-labels_all1_n1a = np.zeros((n_all1,1), dtype='int64')
-labels_all1_n1b = np.ones((n_all1,1), dtype='int64')
-labels_all1_n1a_df = pd.DataFrame(labels_all1_n1a)
-labels_all1_n1b_df = pd.DataFrame(labels_all1_n1b)
-labels_all1_n_df = pd.concat([labels_all1_n1a_df, labels_all1_n1b_df], axis=1)
-labels_all1_n = labels_all1_n_df.values # (810,2)
+# Create labels for each set
+labels_tr1 = set_labels(n_tr1)     # tr set class 1
+labels_tr2 = set_labels(n_tr2)     # tr set class 2
+labels_tst1 = set_labels(n_tst1)   # tst set class 1
+labels_tst2 = set_labels(n_tst2)   # tst set class 2
+labels_all1 = set_labels(n_all1)   # class 1
+labels_all2 = set_labels(n_all2)   # class 2
 
-# create labels for all set class 2
-labels_all2_n1a = np.ones((n_all2,1), dtype='int64')
-labels_all2_n1b = np.zeros((n_all2,1), dtype='int64')
-labels_all2_n1a_df = pd.DataFrame(labels_all2_n1a)
-labels_all2_n1b_df = pd.DataFrame(labels_all2_n1b)
-labels_all2_n_df = pd.concat([labels_all2_n1a_df, labels_all2_n1b_df], axis=1)
-labels_all2_n = labels_all2_n_df.values # (847,2)
-
-# final labels for tr set
-labels_tr_n_df = pd.concat([labels_tr1_n_df, labels_tr2_n_df], axis=0)
-labels_tr_n = labels_tr_n_df.values
-
-# final labels for tst set
-labels_tst_n_df = pd.concat([labels_tst1_n_df, labels_tst2_n_df], axis=0)
-labels_tst_n = labels_tst_n_df.values
-
-# final labels for complete set
-labels_all_n_df = pd.concat([labels_all1_n_df, labels_all2_n_df], axis=0)
-labels_all_n = labels_all_n_df.values
-
+# Create final labels for train, test and combined sets
+labels_tr = class_labels(labels_tr1, labels_tr2)       # tr set
+labels_tst = class_labels(labels_tst1, labels_tst2)    # tst set
+labels_all = class_labels(labels_all1, labels_all2)    # combined
 
 # save all data to prevent re-running this segment of code
-np.save('labels_tr_n.npy', labels_tr_n)
-np.save('labels_tst_n.npy', labels_tst_n)
-np.save('labels_all_n.npy', labels_all_n)
+np.save('labels_tr.npy', labels_tr)
+np.save('labels_tst.npy', labels_tst)
+np.save('labels_all.npy', labels_all)
 
+##############################################################################
 
 '''
 fn once n3
@@ -157,6 +137,8 @@ for i in range(9341+5699, 9341+5699+1903):
     file.write("\n")
     
 file.close()
+
+###############################################################################
 
 '''
 fn once n4
@@ -213,6 +195,7 @@ np.save('labels_tr_nh.npy', labels_tr_n_h)
 np.save('labels_tst_nh.npy', labels_tst_n_h)
 np.save('labels_all_nh.npy', labels_all_n_h)
 
+##############################################################################
 
 '''
 fn once 5
