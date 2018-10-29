@@ -17,6 +17,7 @@ from gcn.utils import *
 from gcn.inits import *
 from gcn.metrics import *
 #from gcn.models import GCN, MLP
+from data_loader import *
 
 from helpers import *
 import pprint
@@ -37,16 +38,10 @@ from sklearn.multiclass import OneVsRestClassifier
 from scipy import interp
 
 ###############################################################################
-adj = np.load('data/adj1000.npy').tolist()
-features = sp.lil_matrix(np.load('data/features1000.npy'))
-idx_super = np.load('data/idx_super1000.npy')
-y_train = np.load('data/y_train1000.npy')
-y_test = np.load('data/y_test1000.npy')
-y_val = np.load('data/y_val1000.npy')
-train_mask = np.load('data/train_mask1000.npy')
-test_mask = np.load('data/test_mask1000.npy')
-val_mask = np.load('data/val_mask1000.npy')
+# load data
+adj, features, idx_super, y_train, y_test, y_val, train_mask, test_mask, test_mask, val_mask = load_data()
 
+# create index list of with super nodes
 idx_super2 = [ [] for x in range(len(idx_super))]
 for i in range(len(idx_super)):
     idx_super2[i] = idx_super[i]
